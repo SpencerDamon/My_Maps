@@ -1,0 +1,83 @@
+1. Remove the Hello World TextView.
+2. Add a RecyclerView to the constraint layout, set attr to match_parent,
+   and id to rvMaps.
+
+DEFINE THE MODELS
+3. Create new package called model in the mymaps dir.
+4. Create new class file in model dir, and name it UserMap as
+   this is an obvious model that represents a map the user has created.
+5. Create a data class named UserMap in the UserMap.kt file.
+6. Pass the attr of the map in the UserMap data class, such as every map
+   needs a title, so val title of <T> String, and a list of markers,
+   and each marker actually represents a place, val places of <T> Place
+   into the primary constructor of the class. We'll define Place next.
+7. In the model directory create a new class file name Place.kt by clicking
+   on the red Place <T> and click more options, then click create new class.
+   Click create new file, choose the destination to be of the model dir.
+   Click ok.
+8. (if you performed step 7, this should be taken care of by Android Studio),
+   In the Place.kt file create a data class named Place (remember a
+   data class contains only data, no functionality, and must contain
+   at least one parameter in the primary constructor.
+9. Each place is a marker that is at a particular location on the map
+   which will have a title, description, and (coordinates).
+   val title <T> String, val description <T> String, val latitude <Double>,
+   val longitude <T> Double.
+
+10. In ActivityMain set the layout manager by creating an instance of the
+    LinearLayoutManager and assign it to the layoutManager property of
+    the recycler view rvMaps, then pass in the context, this. Which will
+    be a linear layout be default which is what we want.
+11. Next set the adapter on the recycler view by creating an instance of
+    the MapsAdapter (create next), and pass in two parameters, the context,
+    this; and pass in our data, which will be a list of <T> UserMap
+    (for now, emptyList<UserMap>()).
+12. Click on the red MapsAdapter, and click make new class, extract from
+    file, destination the MainActivity dir (myMaps in this case), creates new class file and a
+    template of the MapsAdapter class
+
+13. Create Our Own Adapter
+    Change the MapsAdapter parameters from mainActivity: MainActivity to context: Context,
+    and val userMaps: emptyList: List<UserMap>.
+14. Create our own ViewHolder
+    Make the MapsAdapter inherit the from the adapter class Adapter of the class of the RecyclerView
+    and type ViewHolder a child of RecyclerView by
+    appending : RecyclerView.Adapter<RecyclerView.ViewHolder>() after the MapsAdapter class parameter
+    list.
+15. Inside the body of the MapsAdapter class, create a nested class of ViewHolder, and have it
+    inherit from the RecyclerView.ViewHolder class then match the parent class constructor which
+    takes in itemView  class ViewHolder(itemView: ItemView) : RecyclerView.ViewHolder(itemView)
+16. Now go back to the MapsAdapter class and change the inherited type of the parent ViewHolder to
+    reference the type of our ViewHolder by changing RecyclerView.Adapter<RecyclerView.ViewHolder>()
+    to RecyclerView.Adapter<MapsAdapter.ViewHolder>()
+    Note: If you don't choose ViewHolder com.example.mymaps.MapsAdapter from the autofill you
+    may have to import our ViewHolder com.example.mymaps.MapsAdapter
+    Change emptyList to val userMaps, and make sure context: Context is declared with the keyword val.
+
+17. Implement the Abstract Methods for our adapter
+    Click on the MapsAdapter red light and implement members, all three, onCreateViewHolder,
+    getItemCount, and onBindViewHolder.
+18. Rahul personal preference is to move the nested ViewHolder class to the bottom of the MapsAdapter
+    class, underneath the members. You can highlight the class, and then SHIFT + ALT + arrow up or down.
+19. getItemCount() is the easiest to implement,
+    call size with dot notation to access the size property of our dataset userMaps.size; NOT return
+    if you one-line it!
+20. onCreateViewHolder's purpose is to inflate the view and wrap that inside a VeiwHolder, pass in
+    context, and inflate the layout, and instead of making our own, we'll inflate a premade one from
+    Android Studio by passing in android.R.layout.simple_list_item_1, parent, attachToRoot: false to
+    the inflate() function.
+    LayoutInflater.from(context).inflate(R.layout.simple_list_item_1, parent, attachToRoot: false)
+    and then wrap the inflated view inside a ViewHolder by return ViewHolder(view). We are returning
+    an instance of ViewHolder with a view as the parameter.
+21. onBindViewHolder() responsibility is to grab the data which is at this "position",  and bind it
+    to the view located inside the view holder, by passing it to the view holder, holder.
+    To get the position simply get the element at position of our list and assign it to a declared
+    val named userMap by indexing into our dataset, val userMap = userMaps[position]
+22. Then bind it, first look to see what is inside our templated layout simple_list_item_1, click on
+    it then CTRL + B will take you to the layout file.  Scroll down and see the id of the TeztView,
+    is text1.  Now go back to onBindViewHolder() and declare a reference to that TeztView, tezt1
+    with val textViewTitle = holder.itemView.findViewById<TextView>(android.R.id.text1). We use the
+    android.R.id, because this text view is from the android sdk
+23. Then update the text in the TextView text1 by textVeiwTitle.text = userMap.title with the title.
+24. Run the app, we should get a blank screen as we have not passed any data.
+16.25
