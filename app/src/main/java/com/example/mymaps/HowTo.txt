@@ -79,5 +79,16 @@ DEFINE THE MODELS
     with val textViewTitle = holder.itemView.findViewById<TextView>(android.R.id.text1). We use the
     android.R.id, because this text view is from the android sdk
 23. Then update the text in the TextView text1 by textVeiwTitle.text = userMap.title with the title.
-24. Run the app, we should get a blank screen as we have not passed any data.
+24. Run the app, we should get a blank screen as we have not passed any data to the adapter.
 16.25
+25. Generate data... some list  https://gist.github.com/rpandey1234/19d9be3f6436080763e2eaf4adbf0b16
+    Here is a data list, paste it into the MainActivity underneath the closing curly braces of
+    onCreate().
+    There is a method named generateSampleData, which returns a list of usermap List<UserMap>
+    Each UserMap contains the attributes we already defined in our data class, name, descr. lat, long.
+26. So now call this method and store it in a variable name userMaps in the onCreate(), just under
+    setContentView, in MainActivity
+27. Now that variable userMaps can be the data to be displayed in the recyclerView. So pass
+    userMaps into the MapsAdapter constructor in place of emptyList<UserMap>.
+28. Run the app again we should now see a list of places
+    18.10
