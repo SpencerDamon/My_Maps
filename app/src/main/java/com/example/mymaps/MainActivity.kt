@@ -2,12 +2,15 @@ package com.example.mymaps
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymaps.model.Place
 import com.example.mymaps.model.UserMap
 
+private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -18,7 +21,15 @@ class MainActivity : AppCompatActivity() {
         rvMaps.layoutManager = LinearLayoutManager(this)
 
         // Set adapter on the recycler view
-        rvMaps.adapter = MapsAdapter(this, userMaps)
+        rvMaps.adapter = MapsAdapter(this, userMaps, object: MapsAdapter.OnClickListener {
+            override fun onItemClick(position: Int) {
+                Log.i(TAG, "onItemClick $position")
+            }
+
+        })
+
+        // When user taps on item navigate to a new activity
+
     }
 
     private fun generateSampleData(): List<UserMap> {

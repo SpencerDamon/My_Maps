@@ -92,3 +92,68 @@ DEFINE THE MODELS
     userMaps into the MapsAdapter constructor in place of emptyList<UserMap>.
 28. Run the app again we should now see a list of places
     18.10
+29. Navigate to a new map acitivity
+    Set a click listener on item view
+    The first step is we need to understand when did an item in the recycler view
+    actually get clicked?
+    Set a click listener on the item view.
+    holder.itemView.setOnClickListener { take some action }
+    highlight holder.itemView, move one line up, enter for a line to code,
+    paste holder.itemView.setOnClickListener {
+        LOG.i()
+    }
+30. Create a top level private const variable named TAG of Type String, and follow convention
+    Convention for a log statement is the name of the class it is in. "MapsAdapter"
+31. Now pass TAG, and "Tapped on Position $position" as the parameters to Log.i(). If Log
+    remains red, you may have to import Log import android.util.Log
+32. Now run it, and open Logcat, Search for MapsAdapter, level info, show only app
+    Then tap on the various places on the emulator and they should show in Logcat,
+    as e.g. I/MapsAdapter: Tapped on position 3
+33. What we would like is for MainActivity to get notified of a tap, and then
+    MainActivity should be the place where we do the navigation to another screen.
+    GOTO MainActivity and inside onCreate, but at just above the closing curly brace,
+    add:
+    // When user taps on item (view) in recycler view navigate to a new activity
+34. Define an Interface
+    We need to define an interface in the MapsAdapter and passing a implementation
+    of that interface (an instance) into the MapsAdapter constructor.
+    GOTO MapsAdapter and under the class declaration but before onCreate, add:
+    interface OnClickListener { //
+        fun onItemClick(position: Int) // one function called onItemClick that will take in a position
+    }
+35. Now add this onto the parameter of the constructor, of MapsAdapter following
+    val UserMaps parameter, separated by a comma.
+
+36. Pass an object instance of the Interface (MapsAdapter.onClickListener) into MapsAdapter and
+    GOTO MainActivity, there is an error that we have not yet passed in the interface
+    Pass in to MapsAdapter assignment of rv.Maps.adapter object: MapsAdapter.onClickListener {}
+    rv.Maps.adapter = MapsAdapter( this, userMaps, object: MapsAdapter.onClickLister {
+
+    })
+37. Define Implementation Member
+    Then you will need to define an implementation method, by clicking on the
+    the red underlined object, then click on implement members on the popup
+    it will create override fun onItemClick(position: Int) {}
+    Define that implementation method by in the curly braces add another log
+    statement "onItemClick $position"
+
+38. Declare a top level variable above class MainActivity,
+    private const val TAG = "MainActivity"
+
+39. Link a click event from itemClickListener to fire the interface in MainActivity
+    GOTO MapsAdapter
+    So we are passing in an implementation of the interface but we are not doing
+    anything with it onClickListener is currently unused, so the idea, or how
+    this is all tied to together is when the item view is clicked on we want to
+    fire the method onItemClick() on that interface.
+    onClickListener dot onItemClick, and pass in position here. Add:
+    onClickListener.onItemClick(position)
+
+40. Now every time a user taps on one of the items in the recycler view we'll call
+    this itemClickListener which is part of the interface, and that will then
+    alert this code (override fun onItemClick) to be fired and will get this
+    log statement.
+    Run the app. Open Logcat.
+    Now we ezpect to see two log activities each time we click an item,
+    one from MapsAdapter, and one from MainActivity
+    21.40
